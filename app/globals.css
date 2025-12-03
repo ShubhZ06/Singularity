@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+@theme {
+  --color-gold-500: #C8A965;
+  --color-gold-600: #C5A059;
+  --font-orbitron: var(--font-orbitron);
+  --font-inter: var(--font-inter);
+}
+
+body {
+  background-color: black;
+  color: white;
+}
+
+html {
+  scroll-behavior: smooth;
+}
