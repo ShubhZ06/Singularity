@@ -3,6 +3,7 @@ import { Orbitron, Inter } from "next/font/google";
 import "./globals.css";
 import CanvasCursor from "@/components/ui/canvas-cursor";
 import Galaxy from "@/components/ui/Galaxy";
+import FallingAstronaut from '@/components/FallingAstronaut';
 
 const orbitron = Orbitron({
     variable: "--font-orbitron",
@@ -40,6 +41,7 @@ export default function RootLayout({
                     />
                 </div>
                 <CanvasCursor />
+                <FallingAstronaut />
                 <div className="relative z-10">
                     {children}
                 </div>
