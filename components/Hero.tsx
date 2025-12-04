@@ -59,8 +59,18 @@ const Hero = () => {
                 <p className="text-xl md:text-2xl font-inter text-gray-300 mb-8">
                     December 31st, 2025 • Virtual
                 </p>
-                <button className="px-8 py-4 bg-gold-500 text-black font-bold text-xl rounded-full hover:bg-gold-600 transition-all shadow-[0_0_20px_rgba(255,215,0,0.5)] font-orbitron">
-                    Register via Devfolio
+                <button className="relative px-12 py-4 rounded-full font-orbitron font-semibold text-white text-xl backdrop-blur-xl bg-white/5 border border-white/20 shadow-[0_0_25px_rgba(255,255,255,0.15)] hover:shadow-[0_0_45px_rgba(255,255,255,0.45)] transition-all duration-500 overflow-hidden">
+                    <span className="relative z-10">Register via Devfolio</span>
+                    {/* Soft Glow Behind */}
+                    <span className="absolute inset-0 bg-white/10 blur-2xl opacity-40" />
+                    {/* Inner Shine Layer */}
+                    <span className="absolute inset-0 bg-linear-to-br from-white/20 to-transparent opacity-20" />
+                    {/* Tiny Particles */}
+                    <span className="absolute inset-0 overflow-hidden">
+                        <span className="absolute w-1 h-1 bg-white/70 rounded-full top-2 left-6 animate-ping"></span>
+                        <span className="absolute w-1 h-1 bg-white/60 rounded-full top-5 left-10 animate-pulse"></span>
+                        <span className="absolute w-1 h-1 bg-white/50 rounded-full top-3 left-20 animate-ping"></span>
+                    </span>
                 </button>
                 <Countdown />
             </motion.div>
