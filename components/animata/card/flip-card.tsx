@@ -1,12 +1,13 @@
-import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
+import Image from "next/image";
+import { useState } from "react";
 
-interface FlipCardProps extends React.HTMLAttributes<HTMLDivElement> {
+interface FlipCardProps {
     image: string;
     title: string;
     description: string;
     subtitle?: string;
     rotate?: "x" | "y";
-    imageClassName?: string;
 }
 
 export default function FlipCard({
@@ -15,46 +16,42 @@ export default function FlipCard({
     description,
     subtitle,
     rotate = "y",
-    className,
-    imageClassName,
-    ...props
 }: FlipCardProps) {
-    const rotationClass = {
-        x: ["group-hover:[transform:rotateX(180deg)]", "[transform:rotateX(180deg)]"],
-        y: ["group-hover:[transform:rotateY(180deg)]", "[transform:rotateY(180deg)]"],
+    const hoverTransform = rotate === "x" ? "group-hover:[transform:rotateX(180deg)]" : "group-hover:[transform:rotateY(180deg)]";
+    const activeTransform = rotate === "x" ? "[transform:rotateX(180deg)]" : "[transform:rotateY(180deg)]";
+    const backFaceTransform = rotate === "x" ? "[transform:rotateX(180deg)]" : "[transform:rotateY(180deg)]";
+
+    const [isFlipped, setIsFlipped] = useState(false);
+
+    const handleFlip = () => {
+        setIsFlipped(!isFlipped);
     };
-    const self = rotationClass[rotate];
 
     return (
-        <div className={cn("group h-[500px] w-[500px] max-w-full [perspective:1000px]", className)} {...props}>
+        <div
+            className="group h-96 w-80 [perspective:1000px] cursor-pointer"
+            onClick={handleFlip}
+        >
             <div
-                className={cn(
-                    "relative h-full rounded-2xl transition-all duration-500 [transform-style:preserve-3d]",
-                    self[0],
-                )}
+                className={`relative h-full w-full rounded-xl shadow-xl transition-all duration-500 [transform-style:preserve-3d] ${hoverTransform} ${isFlipped ? activeTransform : ''}`}
             >
-                {/* Front */}
-                <div className="absolute h-full w-full [backface-visibility:hidden] bg-black rounded-2xl">
-                    <img
+                {/* Front Face */}
+                <div className="absolute inset-0 h-full w-full rounded-xl bg-black/40 border border-white/10 [backface-visibility:hidden] overflow-hidden">
+                    <Image
                         src={image}
-                        alt="image"
-                        className={cn("h-full w-full rounded-2xl object-cover", imageClassName)}
+                        alt={title}
+                        fill
+                        className="object-cover"
                     />
-                    <div className="absolute bottom-6 left-6 text-2xl font-bold font-orbitron text-white drop-shadow-lg">{title}</div>
                 </div>
 
-                {/* Back */}
+                {/* Back Face */}
                 <div
-                    className={cn(
-                        "absolute h-full w-full rounded-2xl bg-black/90 p-6 text-slate-200 [backface-visibility:hidden] border border-gold-500/30",
-                        self[1],
-                    )}
+                    className={`absolute inset-0 h-full w-full rounded-xl bg-black/90 border border-gold-500/30 px-8 text-center text-slate-200 ${backFaceTransform} [backface-visibility:hidden]`}
                 >
-                    <div className="flex min-h-full flex-col gap-4 justify-center">
-                        <h1 className="text-2xl font-bold font-orbitron text-gold-500">{subtitle}</h1>
-                        <p className="mt-2 border-t border-t-white/20 py-4 text-base font-inter font-medium leading-relaxed text-gray-100">
-                            {description}{" "}
-                        </p>
+                    <div className="flex min-h-full flex-col items-center justify-center">
+                        <h3 className="text-2xl font-bold text-white mb-4 font-orbitron">{title}</h3>
+                        <p className="text-base text-gray-300 font-inter leading-relaxed">{description}</p>
                     </div>
                 </div>
             </div>

@@ -51,7 +51,7 @@ const FAQ = () => {
                                     }`}
                             />
                         </button>
-                        <AnimatePresence>
+                        <AnimatePresence initial={false}>
                             {activeIndex === index && (
                                 <motion.div
                                     initial={{ height: 0, opacity: 0 }}
