@@ -39,12 +39,38 @@ const Countdown = () => {
 
 const Hero = () => {
     return (
-        <section className="min-h-screen flex flex-col items-center justify-center text-center pt-20 px-4">
+        <section className="min-h-screen flex flex-col items-center justify-center text-center pt-20 px-4 relative overflow-hidden">
+
+            {/* Satellite Image */}
+            {/* Satellite Image */}
+            <motion.div
+                initial={{ x: -500, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{
+                    duration: 2,
+                    delay: 2.5,
+                    ease: "easeOut"
+                }}
+                className="absolute top-20 left-0 md:-left-10 w-44 h-44 md:w-[27rem] md:h-[27rem] opacity-80 pointer-events-none z-0 hidden md:block"
+            >
+                <motion.img
+                    animate={{ y: [0, -20, 0] }}
+                    transition={{
+                        duration: 4,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                    }}
+                    src="/Satellite.svg"
+                    alt="Satellite"
+                    className="w-full h-full object-contain"
+                />
+            </motion.div>
+
             <motion.h1
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.5, ease: "easeOut" }}
-                className="text-6xl md:text-8xl font-orbitron font-bold text-white mb-4 leading-tight tracking-wider"
+                className="text-6xl md:text-8xl font-orbitron font-bold text-white mb-4 leading-tight tracking-wider relative z-10"
             >
                 Singularity
             </motion.h1>
@@ -52,13 +78,13 @@ const Hero = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.8, duration: 0.8 }}
-                className="flex flex-col items-center"
+                className="flex flex-col items-center relative z-10"
             >
-                <h2 className="text-2xl md:text-4xl font-orbitron text-gold-500 mb-8">
-                    Build the Future of the Galaxy
+                <h2 className="text-[22px] md:text-[34px] font-orbitron text-gold-500 mb-8">
+                    Launching the Next Generation of Innovators
                 </h2>
                 <p className="text-xl md:text-2xl font-inter text-gray-300 mb-8">
-                    January 17th - 18th, 2026 • Virtual
+                    January 17th - 18th, 2026 • 24hr Offline Event
                 </p>
                 <RippleButton onClick={() => window.open('https://luma.com/369a1jle', '_blank')}>
                     Register Now

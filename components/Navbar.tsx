@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useState } from 'react';
+import { motion, AnimatePresence, Variants } from 'framer-motion';
+import { useState, useEffect, useRef } from 'react';
 
 interface NavbarProps {
     isLoading?: boolean;
@@ -9,6 +9,23 @@ interface NavbarProps {
 
 const Navbar = ({ isLoading = false }: NavbarProps) => {
     const [isOpen, setIsOpen] = useState(false);
+    const navRef = useRef<HTMLElement>(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (navRef.current && !navRef.current.contains(event.target as Node)) {
+                setIsOpen(false);
+            }
+        };
+
+        if (isOpen) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [isOpen]);
 
     const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
         e.preventDefault();
@@ -24,7 +41,7 @@ const Navbar = ({ isLoading = false }: NavbarProps) => {
     const leftItems = ['About', 'Stats', 'Schedule'];
     const rightItems = ['Prizes', 'Sponsors', 'FAQ'];
 
-    const containerVariants = {
+    const containerVariants: Variants = {
         closed: {
             width: '100px',
             height: '70px',
@@ -53,6 +70,7 @@ const Navbar = ({ isLoading = false }: NavbarProps) => {
         <div className="fixed top-8 left-0 right-0 z-50 flex justify-center pointer-events-none">
             {!isLoading && (
                 <motion.nav
+                    ref={navRef}
                     className="pointer-events-auto bg-black/50 backdrop-blur-2xl border border-white/20 shadow-[0_0_20px_rgba(255,255,255,0.1)] flex items-center justify-center overflow-hidden cursor-pointer"
                     initial="closed"
                     animate={isOpen ? "open" : "closed"}
@@ -81,10 +99,9 @@ const Navbar = ({ isLoading = false }: NavbarProps) => {
                         )}
                     </AnimatePresence>
 
-                    {/* Logo */}
                     <motion.div
                         layoutId="main-logo"
-                        className="relative w-12 h-12 shrink-0 mx-2"
+                        className="relative w-12 h-12 shrink-0 mx-2 rounded-full overflow-hidden"
                         transition={{ duration: 0.6, ease: "easeInOut" }}
                         animate={{ rotate: isOpen ? 360 : 0 }}
                     >

@@ -27,9 +27,20 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
 
     return (
         <motion.div
-            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black"
-            exit={{ opacity: 0, transition: { duration: 0.5, delay: 0.5 } }} // Delay unmount for smooth exit
+            className="fixed inset-0 z-[100] flex items-center justify-center pointer-events-none"
         >
+            {/* Background Overlay - Fades out */}
+            <AnimatePresence>
+                {!exit && (
+                    <motion.div
+                        className="absolute inset-0 bg-black pointer-events-auto"
+                        initial={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.8, ease: "easeInOut" }}
+                    />
+                )}
+            </AnimatePresence>
+
             <AnimatePresence>
                 {!started && (
                     <motion.button
@@ -39,7 +50,7 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={handleStart}
-                        className="px-8 py-4 border border-gold-500/50 text-gold-500 font-orbitron text-xl uppercase tracking-widest rounded-full hover:bg-gold-500/10 transition-colors z-20 relative"
+                        className="px-8 py-4 border border-gold-500/50 text-gold-500 font-orbitron text-xl uppercase tracking-widest rounded-full hover:bg-gold-500/10 transition-colors z-20 relative pointer-events-auto"
                     >
                         Enter Singularity
                     </motion.button>
@@ -74,7 +85,7 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
                 </motion.div>
             )}
 
-            {/* Logo Animation - Always rendered but hidden initially to fix geometry */}
+            {/* Logo Animation - Persists until unmount, moved by layoutId */}
             <motion.div
                 layoutId="main-logo"
                 className="absolute inset-0 m-auto w-40 h-40 z-10 pointer-events-none"

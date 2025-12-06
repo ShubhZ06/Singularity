@@ -3,6 +3,7 @@
 @theme {
   --color-gold-500: #C8A965;
   --color-gold-600: #C5A059;
+  --color-gold-900: #3E3215;
   --font-orbitron: var(--font-orbitron);
   --font-inter: var(--font-inter);
 }
@@ -13,5 +14,14 @@ body {
 }
 
 html {
-  scroll-behavior: smooth;
+  /* scroll-behavior: smooth; <- Removed to let Lenis handle it */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+::-webkit-scrollbar {
+  display: none;
 }
