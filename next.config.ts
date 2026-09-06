@@ -1,8 +1,13 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
   reactCompiler: true,
+  compress: true,
+  poweredByHeader: false,
+  // Ensure images are optimized if using external domains
+  images: {
+    unoptimized: true,
+  },
 };
 
 export default nextConfig;

@@ -16,7 +16,7 @@ export const TextGenerateEffect = ({
 }) => {
     const [scope, animate] = useAnimate();
     const isInView = useInView(scope);
-    let wordsArray = words.split(" ");
+    const wordsArray = words.replace(/\r\n/g, ' ').replace(/\n/g, ' ').replace(/\r/g, ' ').split(" ").filter(w => w.length > 0);
     useEffect(() => {
         if (isInView) {
             animate(
@@ -31,11 +31,11 @@ export const TextGenerateEffect = ({
                 }
             );
         }
-    }, [scope.current, isInView]);
+    }, [isInView, animate, duration, filter]);
 
     const renderWords = () => {
         return (
-            <motion.div ref={scope}>
+            <motion.div ref={scope} suppressHydrationWarning>
                 {wordsArray.map((word, idx) => {
                     return (
                         <motion.span

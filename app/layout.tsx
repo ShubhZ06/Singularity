@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import { Orbitron, Inter } from "next/font/google";
+import { Orbitron, Inter, JetBrains_Mono, Audiowide } from "next/font/google";
 import "./globals.css";
-import CanvasCursor from "@/components/ui/canvas-cursor";
+import CircleCursor from "@/components/ui/circle-cursor";
 import Galaxy from "@/components/ui/Galaxy";
 import BackgroundMusic from "@/components/BackgroundMusic";
 import SmoothScroll from "@/components/ui/smooth-scroll";
@@ -16,9 +16,44 @@ const inter = Inter({
     subsets: ["latin"],
 });
 
+const jetbrainsMono = JetBrains_Mono({
+    variable: "--font-jetbrains-mono",
+    subsets: ["latin"],
+});
+
+const audiowide = Audiowide({
+    weight: "400",
+    variable: "--font-audiowide",
+    subsets: ["latin"],
+});
+
 export const metadata: Metadata = {
     title: "Singularity Hackathon",
-    description: "Build the Future of the Galaxy",
+    description: "KC's first 24 hour hackathon. ",
+    icons: {
+        icon: '/logo.svg',
+    },
+    metadataBase: new URL('https://www.singularityhack.tech'),
+    openGraph: {
+        title: "Singularity Hackathon",
+        description: "Early bird tickets are out!",
+        images: [
+            {
+                url: '/opengraph.jpg',
+                width: 1200,
+                height: 630,
+                alt: 'Singularity Hackathon',
+            }
+        ],
+        type: 'website',
+        url: 'https://www.singularityhack.tech',
+    },
+    twitter: {
+        card: 'summary_large_image',
+        title: "Singularity Hackathon",
+        description: "Build the Future of the Galaxy",
+        images: ['/opengraph.jpg'],
+    },
 };
 
 export default function RootLayout({
@@ -29,19 +64,19 @@ export default function RootLayout({
     return (
         <html lang="en" suppressHydrationWarning>
             <body
-                className={`${orbitron.variable} ${inter.variable} antialiased bg-black text-white overflow-x-hidden`}
+                className={`${orbitron.variable} ${inter.variable} ${jetbrainsMono.variable} ${audiowide.variable} antialiased bg-black text-white overflow-x-hidden font-jetbrains-mono`}
             >
                 <div className="fixed inset-0 z-0 pointer-events-none">
                     <Galaxy
                         mouseRepulsion={true}
                         mouseInteraction={true}
-                        density={0.8}
+                        density={0.45}
                         glowIntensity={0.15}
                         saturation={0}
                         hueShift={240}
                     />
                 </div>
-                <CanvasCursor />
+                <CircleCursor />
                 <SmoothScroll />
                 <BackgroundMusic />
                 <div className="relative z-10">

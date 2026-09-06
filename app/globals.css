@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "lenis/dist/lenis.css";
 
 @theme {
   --color-gold-500: #C8A965;
@@ -6,11 +7,27 @@
   --color-gold-900: #3E3215;
   --font-orbitron: var(--font-orbitron);
   --font-inter: var(--font-inter);
+  --font-jetbrains-mono: var(--font-jetbrains-mono);
 }
 
 body {
   background-color: black;
   color: white;
+  cursor: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+img {
+  -webkit-user-drag: none;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
+a, button, [role="button"], input, textarea, select {
+  cursor: none;
 }
 
 html {

@@ -1,47 +1,46 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import RippleButton from '@/components/animata/button/ripple-button';
 
-const Countdown = () => {
-    const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-
-    useEffect(() => {
-        const targetDate = new Date('2026-01-17T00:00:00'); // Updated date
-        const interval = setInterval(() => {
-            const now = new Date();
-            const difference = targetDate.getTime() - now.getTime();
-
-            if (difference > 0) {
-                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
-                const minutes = Math.floor((difference / 1000 / 60) % 60);
-                const seconds = Math.floor((difference / 1000) % 60);
-                setTimeLeft({ days, hours, minutes, seconds });
-            }
-        }, 1000);
-
-        return () => clearInterval(interval);
-    }, []);
-
-    return (
-        <div className="flex gap-4 mt-8">
-            {Object.entries(timeLeft).map(([unit, value]) => (
-                <div key={unit} className="flex flex-col items-center">
-                    <span className="text-4xl font-orbitron text-white">{value.toString().padStart(2, '0')}</span>
-                    <span className="text-sm text-gold-500 uppercase">{unit}</span>
-                </div>
-            ))}
-        </div>
-    );
-};
-
 const Hero = () => {
-    return (
-        <section className="min-h-screen flex flex-col items-center justify-center text-center pt-20 px-4 relative overflow-hidden">
+    const scrollToSection = (id: string) => {
+        const element = document.getElementById(id);
+        if (!element) return;
 
-            {/* Satellite Image */}
+        if (typeof window !== 'undefined' && window.lenis) {
+            window.lenis.scrollTo(element, { offset: -60, duration: 1.4 });
+        } else {
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
+
+    return (
+        <section id="hero" className="min-h-screen flex flex-col items-center justify-center text-center pt-20 px-4 relative overflow-hidden">
+
+            {/* Built with CIREX - Top Right */}
+            <motion.a
+                href="/"
+                target="_blank"
+                rel="noopener noreferrer"
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ 
+                    opacity: 1, 
+                    y: 0
+                }}
+                transition={{ 
+                    opacity: { duration: 1, delay: 1 },
+                    y: { duration: 1, delay: 1 }
+                }}
+                className="absolute top-8 right-8 w-40 md:w-52 h-16 md:h-20 z-20 opacity-80 hover:opacity-100 transition-opacity cursor-pointer"
+            >
+                <img 
+                    src="/buildwithcirex.svg" 
+                    alt="Built with CIREX" 
+                    className="w-full h-full object-contain"
+                />
+            </motion.a>
+
             {/* Satellite Image */}
             <motion.div
                 initial={{ x: -500, opacity: 0 }}
@@ -66,33 +65,40 @@ const Hero = () => {
                 />
             </motion.div>
 
-            <motion.h1
+            <motion.img
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.5, ease: "easeOut" }}
-                className="text-4xl sm:text-6xl md:text-8xl font-orbitron font-bold text-white mb-4 leading-tight tracking-wider relative z-10"
-            >
-                Singularity
-            </motion.h1>
-            <motion.div
+                src="/lettering.svg"
+                alt="Singularity"
+                className="w-full max-w-2xl md:max-w-4xl h-auto relative z-10"
+            />
+            <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.8, duration: 0.8 }}
-                className="flex flex-col items-center relative z-10"
+                transition={{ duration: 0.8, delay: 0.8, ease: "easeOut" }}
+                className="text-base sm:text-lg md:text-2xl text-gray-300 max-w-2xl md:max-w-3xl text-center tracking-wide relative z-10 px-4 -mt-6 sm:-mt-12"
             >
-                <h2 className="text-lg sm:text-2xl md:text-[34px] font-orbitron text-gold-500 mb-8 px-4">
-                    Launching the Next Generation of Innovators
-                </h2>
-                <p className="text-base sm:text-lg md:text-2xl font-inter text-gray-300 mb-8 px-4">
-                    January 17th - 18th, 2026 • 24hr Offline Event
-                </p>
-                <RippleButton onClick={() => window.open('https://luma.com/369a1jle', '_blank')}>
-                    Register Now
+                <span className="text-gold-500 font-orbitron font-bold">Mission Accomplished.</span>{' '}
+                <span className="text-gray-300 font-inter">Launching the Next Generation of Innovators for 2.0.</span>
+            </motion.p>
+            
+            <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 1.1, ease: "easeOut" }}
+                className="flex flex-col sm:flex-row gap-6 mt-10 relative z-10"
+            >
+                <RippleButton type="button" onClick={() => scrollToSection('gallery')}>
+                    Event Gallery
                 </RippleButton>
-                <Countdown />
+                <RippleButton type="button" onClick={() => scrollToSection('sponsors')}>
+                    Sponsors
+                </RippleButton>
             </motion.div>
         </section>
     );
 };
 
 export default Hero;
+

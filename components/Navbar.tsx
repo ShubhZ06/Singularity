@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
@@ -6,10 +8,14 @@ import { Menu, X } from 'lucide-react';
 
 interface NavbarProps {
     isLoading?: boolean;
+    isOpen?: boolean;
+    setIsOpen?: (open: boolean) => void;
 }
 
-const Navbar = ({ isLoading = false }: NavbarProps) => {
-    const [isOpen, setIsOpen] = useState(false);
+const Navbar = ({ isLoading = false, isOpen: externalIsOpen, setIsOpen: externalSetIsOpen }: NavbarProps) => {
+    const [internalIsOpen, setInternalIsOpen] = useState(false);
+    const isOpen = externalIsOpen !== undefined ? externalIsOpen : internalIsOpen;
+    const setIsOpen = externalSetIsOpen || setInternalIsOpen;
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const navRef = useRef<HTMLElement>(null);
 
@@ -27,7 +33,7 @@ const Navbar = ({ isLoading = false }: NavbarProps) => {
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, [isOpen]);
+    }, [isOpen, setIsOpen]);
 
     // Lock body scroll when mobile menu is open
     useEffect(() => {
@@ -47,15 +53,25 @@ const Navbar = ({ isLoading = false }: NavbarProps) => {
         const targetId = href.replace('#', '');
         const element = document.getElementById(targetId);
         if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
+            if (typeof window !== 'undefined' && window.lenis) {
+                window.lenis.scrollTo(element, { offset: -60, duration: 1.4 });
+            } else {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
             setIsOpen(false); // Close desktop navbar
             setIsMobileMenuOpen(false); // Close mobile navbar
         }
     };
 
     const leftItems = ['About', 'Stats', 'Schedule'];
-    const rightItems = ['Prizes', 'Sponsors', 'FAQ'];
+    const rightItems = ['Gallery', 'Sponsors', 'FAQ'];
     const allItems = [...leftItems, ...rightItems];
+
+    const getItemId = (item: string) => {
+        if (item === 'Schedule') return 'timeline';
+        if (item === 'About') return 'mission';
+        return item.toLowerCase();
+    };
 
     const containerVariants: Variants = {
         closed: {
@@ -72,16 +88,6 @@ const Navbar = ({ isLoading = false }: NavbarProps) => {
         }
     };
 
-    const itemVariants = {
-        closed: { opacity: 0, scale: 0.8, display: 'none' }, // Check display none
-        open: {
-            opacity: 1,
-            scale: 1,
-            display: 'block',
-            transition: { delay: 0.1, duration: 0.2 }
-        }
-    };
-
     return (
         <>
             {/* Desktop Navbar */}
@@ -93,7 +99,8 @@ const Navbar = ({ isLoading = false }: NavbarProps) => {
                         initial="closed"
                         animate={isOpen ? "open" : "closed"}
                         variants={containerVariants}
-                        onClick={() => setIsOpen(!isOpen)}
+                        onMouseEnter={() => setIsOpen(true)}
+                        onMouseLeave={() => setIsOpen(false)}
                     >
                         <AnimatePresence>
                             {isOpen && (
@@ -106,8 +113,8 @@ const Navbar = ({ isLoading = false }: NavbarProps) => {
                                     {leftItems.map((item) => (
                                         <Link
                                             key={item}
-                                            href={`#${item.toLowerCase()}`}
-                                            onClick={(e) => handleScroll(e, `#${item.toLowerCase()}`)}
+                                            href={`#${getItemId(item)}`}
+                                            onClick={(e) => handleScroll(e, `#${getItemId(item)}`)}
                                             className="text-white hover:text-gold-500 transition-colors whitespace-nowrap"
                                         >
                                             {item}
@@ -120,10 +127,10 @@ const Navbar = ({ isLoading = false }: NavbarProps) => {
                         <motion.div
                             layoutId="main-logo"
                             className="relative w-12 h-12 shrink-0 mx-2 rounded-full overflow-hidden"
-                            transition={{ duration: 0.6, ease: "easeInOut" }}
-                            animate={{ rotate: isOpen ? 360 : 0 }}
+                            transition={{ duration: 0.3, ease: "easeOut" }}
+                            animate={{ scale: isOpen ? 1.2 : 1 }}
                         >
-                            <Image src="/logo.svg" alt="Singularity Logo" fill className="object-contain" />
+                            <Image src="/logo1.svg" alt="Singularity Logo" fill className="object-contain" />
                         </motion.div>
 
                         <AnimatePresence>
@@ -137,8 +144,8 @@ const Navbar = ({ isLoading = false }: NavbarProps) => {
                                     {rightItems.map((item) => (
                                         <Link
                                             key={item}
-                                            href={`#${item.toLowerCase()}`}
-                                            onClick={(e) => handleScroll(e, `#${item.toLowerCase()}`)}
+                                            href={`#${getItemId(item)}`}
+                                            onClick={(e) => handleScroll(e, `#${getItemId(item)}`)}
                                             className="text-white hover:text-gold-500 transition-colors whitespace-nowrap"
                                         >
                                             {item}
@@ -187,7 +194,7 @@ const Navbar = ({ isLoading = false }: NavbarProps) => {
                                 transition={{ delay: 0.2, type: 'spring' }}
                                 className="relative w-20 h-20 mb-8"
                             >
-                                <Image src="/logo.svg" alt="Singularity Logo" fill className="object-contain" />
+                                <Image src="/logo1.svg" alt="Singularity Logo" fill className="object-contain" />
                             </motion.div>
 
                             {allItems.map((item, index) => (
@@ -198,8 +205,8 @@ const Navbar = ({ isLoading = false }: NavbarProps) => {
                                     transition={{ delay: 0.1 + index * 0.1 }}
                                 >
                                     <Link
-                                        href={`#${item.toLowerCase()}`}
-                                        onClick={(e) => handleScroll(e, `#${item.toLowerCase()}`)}
+                                        href={`#${getItemId(item)}`}
+                                        onClick={(e) => handleScroll(e, `#${getItemId(item)}`)}
                                         className="text-2xl font-orbitron font-bold text-white hover:text-gold-500 transition-colors"
                                     >
                                         {item}

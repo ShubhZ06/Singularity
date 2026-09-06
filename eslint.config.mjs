@@ -12,6 +12,12 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    "scripts/**",
+    "components/ui/canvas-reveal-effect.tsx",
+    "components/ui/canvas-cursor.tsx",
+    "components/ui/starfield-1.tsx",
+    "components/Prizes.tsx",
+    "hooks/use-canvasCursor.ts",
   ]),
 ]);
 
