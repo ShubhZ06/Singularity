@@ -1,30 +1,42 @@
-'use client'
-import { useEffect } from 'react'
-import Lenis from 'lenis'
+'use client';
+
+import { useEffect } from 'react';
+import Lenis from 'lenis';
+
+declare global {
+  interface Window {
+    lenis?: Lenis;
+  }
+}
 
 export default function SmoothScroll() {
     useEffect(() => {
         const lenis = new Lenis({
             duration: 1.2,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // https://www.desmos.com/calculator/brs54l4xou
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
             orientation: 'vertical',
             gestureOrientation: 'vertical',
             smoothWheel: true,
-            wheelMultiplier: 1,
-            touchMultiplier: 2,
-        })
+            wheelMultiplier: 1.0,
+            touchMultiplier: 1.8,
+        });
 
+        window.lenis = lenis;
+
+        let rafId: number;
         function raf(time: number) {
-            lenis.raf(time)
-            requestAnimationFrame(raf)
+            lenis.raf(time);
+            rafId = requestAnimationFrame(raf);
         }
 
-        requestAnimationFrame(raf)
+        rafId = requestAnimationFrame(raf);
 
         return () => {
-            lenis.destroy()
-        }
-    }, [])
+            cancelAnimationFrame(rafId);
+            lenis.destroy();
+            delete window.lenis;
+        };
+    }, []);
 
-    return null
+    return null;
 }

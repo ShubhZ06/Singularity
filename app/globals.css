@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "lenis/dist/lenis.css";
 
 @theme {
   --color-gold-500: #C8A965;

@@ -4,6 +4,17 @@ import { motion } from 'framer-motion';
 import RippleButton from '@/components/animata/button/ripple-button';
 
 const Hero = () => {
+    const scrollToSection = (id: string) => {
+        const element = document.getElementById(id);
+        if (!element) return;
+
+        if (typeof window !== 'undefined' && window.lenis) {
+            window.lenis.scrollTo(element, { offset: -60, duration: 1.4 });
+        } else {
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
+
     return (
         <section id="hero" className="min-h-screen flex flex-col items-center justify-center text-center pt-20 px-4 relative overflow-hidden">
 
@@ -78,10 +89,10 @@ const Hero = () => {
                 transition={{ duration: 0.8, delay: 1.1, ease: "easeOut" }}
                 className="flex flex-col sm:flex-row gap-6 mt-10 relative z-10"
             >
-                <RippleButton>
+                <RippleButton type="button" onClick={() => scrollToSection('gallery')}>
                     Event Gallery
                 </RippleButton>
-                <RippleButton>
+                <RippleButton type="button" onClick={() => scrollToSection('sponsors')}>
                     Sponsors
                 </RippleButton>
             </motion.div>

@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   // Ensure images are optimized if using external domains
   images: {
-    domains: [], // Add domains if needed
+    unoptimized: true,
   },
 };
 

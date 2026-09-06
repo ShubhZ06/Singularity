@@ -4,19 +4,6 @@ import { motion } from 'framer-motion';
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect"
 import FlipCard from '@/components/animata/card/flip-card';
 
-const tracks = [
-    {
-        title: 'Agentic AI',
-        description: 'Build autonomous agents that can reason, act, and solve complex problems.',
-        icon: '🤖',
-    },
-    {
-        title: 'Open Innovation',
-        description: 'Push the boundaries of technology with creative solutions in any domain.',
-        icon: '🚀',
-    },
-];
-
 const About = () => {
     return (
         <section id="mission" className="min-h-screen py-20 px-6 flex flex-col items-center justify-center relative z-10">

@@ -45,5 +45,5 @@ export const useKeyboardNavigation = (onNavbarToggle?: () => void) => {
         return () => {
             window.removeEventListener('keydown', handleKeyPress);
         };
-    }, []);
+    }, [onNavbarToggle]);
 };

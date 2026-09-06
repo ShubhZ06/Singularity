@@ -2,12 +2,7 @@
 
 import { useScroll, useTransform, motion } from "framer-motion";
 import React, { useEffect, useRef, useState } from "react";
-import { Rocket, Code, Users, Award, Calendar, Braces, CircleX, Gamepad2,Guitar} from "lucide-react";
-
-interface TimelineEntry {
-    title: string;
-    content: React.ReactNode;
-}
+import { Rocket, Code, Award, Calendar, Braces, CircleX, Gamepad2,Guitar} from "lucide-react";
 
 const milestones = [
     {

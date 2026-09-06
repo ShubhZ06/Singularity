@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
@@ -31,7 +33,7 @@ const Navbar = ({ isLoading = false, isOpen: externalIsOpen, setIsOpen: external
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, [isOpen]);
+    }, [isOpen, setIsOpen]);
 
     // Lock body scroll when mobile menu is open
     useEffect(() => {
@@ -51,7 +53,11 @@ const Navbar = ({ isLoading = false, isOpen: externalIsOpen, setIsOpen: external
         const targetId = href.replace('#', '');
         const element = document.getElementById(targetId);
         if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
+            if (typeof window !== 'undefined' && window.lenis) {
+                window.lenis.scrollTo(element, { offset: -60, duration: 1.4 });
+            } else {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
             setIsOpen(false); // Close desktop navbar
             setIsMobileMenuOpen(false); // Close mobile navbar
         }
@@ -79,16 +85,6 @@ const Navbar = ({ isLoading = false, isOpen: externalIsOpen, setIsOpen: external
             height: '70px',
             borderRadius: '9999px',
             transition: { type: "spring", stiffness: 300, damping: 30 }
-        }
-    };
-
-    const itemVariants = {
-        closed: { opacity: 0, scale: 0.8, display: 'none' }, // Check display none
-        open: {
-            opacity: 1,
-            scale: 1,
-            display: 'block',
-            transition: { delay: 0.1, duration: 0.2 }
         }
     };
 

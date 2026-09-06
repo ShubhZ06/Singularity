@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -14,7 +13,6 @@ export default function FlipCard({
     image,
     title,
     description,
-    subtitle,
     rotate = "y",
 }: FlipCardProps) {
     const hoverTransform = rotate === "x" ? "group-hover:[transform:rotateX(180deg)]" : "group-hover:[transform:rotateY(180deg)]";
