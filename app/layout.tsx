@@ -5,6 +5,7 @@ import CircleCursor from "@/components/ui/circle-cursor";
 import Galaxy from "@/components/ui/Galaxy";
 import BackgroundMusic from "@/components/BackgroundMusic";
 import SmoothScroll from "@/components/ui/smooth-scroll";
+import { Agentation } from "agentation";
 
 const orbitron = Orbitron({
     variable: "--font-orbitron",
@@ -82,6 +83,7 @@ export default function RootLayout({
                 <div className="relative z-10">
                     {children}
                 </div>
+                {process.env.NODE_ENV === "development" && <Agentation />}
             </body>
         </html>
     );

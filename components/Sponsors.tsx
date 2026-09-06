@@ -2,6 +2,12 @@
 
 import { motion } from 'framer-motion';
 import { Rocket } from 'lucide-react';
+import Image from 'next/image';
+
+const sponsorLogos = [
+    { name: 'Computer Society of India', image: '/computersocietyofindia-logo.jpeg' },
+    { name: 'IDP Foundation', image: '/idp-logo.jpeg' },
+];
 
 const Sponsors = () => {
     const handleSponsorClick = () => {
@@ -51,6 +57,39 @@ const Sponsors = () => {
                     Support innovation • Build connections • Shape the future
                 </motion.p>
             </motion.div>
+
+            {/* Sponsor Logos Grid */}
+            <div className="mt-20 max-w-5xl mx-auto w-full px-4">
+                {sponsorLogos.length > 0 ? (
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 items-center justify-items-center">
+                        {sponsorLogos.map((sponsor, idx) => (
+                            <motion.div 
+                                key={idx}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ delay: idx * 0.1 }}
+                                className="relative w-full h-24 group"
+                            >
+                                <Image 
+                                    src={sponsor.image} 
+                                    alt={sponsor.name} 
+                                    fill 
+                                    className="object-contain filter grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300" 
+                                />
+                            </motion.div>
+                        ))}
+                    </div>
+                ) : (
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 items-center justify-items-center opacity-30">
+                        {/* Placeholders */}
+                        {[1, 2, 3, 4].map((i) => (
+                            <div key={i} className="h-24 w-full bg-white/10 rounded-lg flex items-center justify-center text-gray-400 border border-white/20 font-inter text-sm">
+                                Logo Placeholder
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </div>
         </section>
     );
 };

@@ -58,8 +58,14 @@ const Navbar = ({ isLoading = false, isOpen: externalIsOpen, setIsOpen: external
     };
 
     const leftItems = ['About', 'Stats', 'Schedule'];
-    const rightItems = ['Prizes', 'Sponsors', 'FAQ'];
+    const rightItems = ['Gallery', 'Sponsors', 'FAQ'];
     const allItems = [...leftItems, ...rightItems];
+
+    const getItemId = (item: string) => {
+        if (item === 'Schedule') return 'timeline';
+        if (item === 'About') return 'mission';
+        return item.toLowerCase();
+    };
 
     const containerVariants: Variants = {
         closed: {
@@ -111,8 +117,8 @@ const Navbar = ({ isLoading = false, isOpen: externalIsOpen, setIsOpen: external
                                     {leftItems.map((item) => (
                                         <Link
                                             key={item}
-                                            href={`#${item.toLowerCase()}`}
-                                            onClick={(e) => handleScroll(e, `#${item.toLowerCase()}`)}
+                                            href={`#${getItemId(item)}`}
+                                            onClick={(e) => handleScroll(e, `#${getItemId(item)}`)}
                                             className="text-white hover:text-gold-500 transition-colors whitespace-nowrap"
                                         >
                                             {item}
@@ -142,8 +148,8 @@ const Navbar = ({ isLoading = false, isOpen: externalIsOpen, setIsOpen: external
                                     {rightItems.map((item) => (
                                         <Link
                                             key={item}
-                                            href={`#${item.toLowerCase()}`}
-                                            onClick={(e) => handleScroll(e, `#${item.toLowerCase()}`)}
+                                            href={`#${getItemId(item)}`}
+                                            onClick={(e) => handleScroll(e, `#${getItemId(item)}`)}
                                             className="text-white hover:text-gold-500 transition-colors whitespace-nowrap"
                                         >
                                             {item}
@@ -203,8 +209,8 @@ const Navbar = ({ isLoading = false, isOpen: externalIsOpen, setIsOpen: external
                                     transition={{ delay: 0.1 + index * 0.1 }}
                                 >
                                     <Link
-                                        href={`#${item.toLowerCase()}`}
-                                        onClick={(e) => handleScroll(e, `#${item.toLowerCase()}`)}
+                                        href={`#${getItemId(item)}`}
+                                        onClick={(e) => handleScroll(e, `#${getItemId(item)}`)}
                                         className="text-2xl font-orbitron font-bold text-white hover:text-gold-500 transition-colors"
                                     >
                                         {item}

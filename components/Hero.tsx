@@ -1,41 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import RippleButton from '@/components/animata/button/ripple-button';
-
-const Countdown = () => {
-    const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-
-    useEffect(() => {
-        const targetDate = new Date('2026-01-17T00:00:00'); // Updated date
-        const interval = setInterval(() => {
-            const now = new Date();
-            const difference = targetDate.getTime() - now.getTime();
-
-            if (difference > 0) {
-                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
-                const minutes = Math.floor((difference / 1000 / 60) % 60);
-                const seconds = Math.floor((difference / 1000) % 60);
-                setTimeLeft({ days, hours, minutes, seconds });
-            }
-        }, 1000);
-
-        return () => clearInterval(interval);
-    }, []);
-
-    return (
-        <div className="flex gap-4 mt-8">
-            {Object.entries(timeLeft).map(([unit, value]) => (
-                <div key={unit} className="flex flex-col items-center">
-                    <span className="text-4xl font-orbitron text-white">{value.toString().padStart(2, '0')}</span>
-                    <span className="text-sm text-gold-500 uppercase">{unit}</span>
-                </div>
-            ))}
-        </div>
-    );
-};
 
 const Hero = () => {
     return (
@@ -64,7 +30,6 @@ const Hero = () => {
                 />
             </motion.a>
 
-            {/* Satellite Image */}
             {/* Satellite Image */}
             <motion.div
                 initial={{ x: -500, opacity: 0 }}
@@ -95,28 +60,34 @@ const Hero = () => {
                 transition={{ duration: 0.8, delay: 0.5, ease: "easeOut" }}
                 src="/lettering.svg"
                 alt="Singularity"
-                className="w-full max-w-2xl md:max-w-4xl h-auto mb-4 relative z-10"
+                className="w-full max-w-2xl md:max-w-4xl h-auto relative z-10"
             />
-            <motion.div
+            <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.8, duration: 0.8 }}
-                className="flex flex-col items-center relative z-10"
+                transition={{ duration: 0.8, delay: 0.8, ease: "easeOut" }}
+                className="text-base sm:text-lg md:text-2xl text-gray-300 max-w-2xl md:max-w-3xl text-center tracking-wide relative z-10 px-4 -mt-6 sm:-mt-12"
             >
-               
-                <div className="flex flex-col sm:flex-row gap-4">
-                    <RippleButton onClick={() => window.open('https://tally.so/r/J9dD9J', '_blank')}>
-                        Register Now!!
-                    </RippleButton>
-                    <RippleButton onClick={() => window.open('https://tally.so/r/yP2xNB', '_blank')}>
-                        Register for Workshops
-                    </RippleButton>
-                </div>
-                
-                <Countdown />
+                <span className="text-gold-500 font-orbitron font-bold">Mission Accomplished.</span>{' '}
+                <span className="text-gray-300 font-inter">Launching the Next Generation of Innovators for 2.0.</span>
+            </motion.p>
+            
+            <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 1.1, ease: "easeOut" }}
+                className="flex flex-col sm:flex-row gap-6 mt-10 relative z-10"
+            >
+                <RippleButton>
+                    Event Gallery
+                </RippleButton>
+                <RippleButton>
+                    Sponsors
+                </RippleButton>
             </motion.div>
         </section>
     );
 };
 
 export default Hero;
+

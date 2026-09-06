@@ -11,10 +11,11 @@ import { useKeyboardNavigation } from "@/hooks/use-keyboard-navigation";
 
 // Dynamically import components below the fold
 const About = dynamic(() => import("@/components/About"));
+const PastWinners = dynamic(() => import("@/components/PastWinners"));
 const Stats = dynamic(() => import("@/components/Stats"));
 const Timeline = dynamic(() => import("@/components/Timeline"));
-const Prizes = dynamic(() => import("@/components/Prizes"));
 const Sponsors = dynamic(() => import("@/components/Sponsors"));
+const Gallery = dynamic(() => import("@/components/Gallery"));
 const FAQ = dynamic(() => import("@/components/FAQ"));
 const Footer = dynamic(() => import("@/components/Footer"));
 
@@ -33,9 +34,11 @@ export default function Home() {
             <KeyboardShortcuts />
             <Hero />
             <About />
+            <PastWinners />
             <Stats />
             <Timeline />
-            <Prizes />
+            <Gallery />
+            <Sponsors />
             
             <FAQ />
             <Footer />
